@@ -1,0 +1,66 @@
+/* src/index.css */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* Add global styles here */
+
+/* src/components/Navbar.css */
+.navbar {
+  background-color: #333;
+  color: #fff;
+  padding: 10px;
+}
+
+.navbar ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar li {
+  display: inline;
+  margin-right: 20px;
+}
+
+.navbar a {
+  color: #fff;
+  text-decoration: none;
+}
+
+/* src/pages/Home.css */
+.home {
+  background: linear-gradient(to bottom, #4e54c8, #8f94fb);
+  color: #fff;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.home h1 {
+  font-size: 2.5rem;
+}
+
+.home ul {
+  padding: 0;
+  margin: 20px 0;
+}
+
+.home li {
+  list-style-type: none;
+  margin-bottom: 10px;
+}
+
+.home a {
+  background-color: #fff;
+  color: #4e54c8;
+  padding: 10px 20px;
+  border-radius: 5px;
+  text-decoration: none;
+}
+
+/* Add styles for other pages similarly */
