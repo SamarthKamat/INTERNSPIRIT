@@ -1,9 +1,9 @@
 const express = require('express');
-const { create, list } = require('../controllers/rideController');
-const authMiddleware = require('../middlewares/authMiddleware');
+const { createRide, getUserRides } = require('../controllers/rideController');
+const authMiddleware = require('../middleware/authMiddleware');
 const router = express.Router();
 
-router.post('/', authMiddleware, create);
-router.get('/', list);
+router.post('/create', authMiddleware, createRide);
+router.get('/myrides', authMiddleware, getUserRides);
 
 module.exports = router;

@@ -1,9 +1,9 @@
 const express = require('express');
-const { submitFeedback, getFeedback, getFeedbackCount } = require('../controllers/feedbackController');
+const { submitFeedback, getFeedback } = require('../controllers/feedbackController'); 
+const authMiddleware = require('../middleware/authMiddleware');
 const router = express.Router();
 
-router.post('/', submitFeedback);
-router.get('/', getFeedback);
-router.get('/count', getFeedbackCount);
+router.post('/submit', authMiddleware, submitFeedback);
+router.get('/ride/:rideId', authMiddleware, getFeedback);
 
 module.exports = router;
