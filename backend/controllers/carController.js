@@ -11,7 +11,7 @@ const addCar = async (req, res) => {
       model,
       year,
       licensePlate,
-      owner: req.user.id,
+      owner: req.user._id,
     });
 
     await newCar.save();

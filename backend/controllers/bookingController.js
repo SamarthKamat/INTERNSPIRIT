@@ -58,8 +58,6 @@ const acceptRideRequest = async (req, res) => {
   }
 };
 
-module.exports = { requestRide, acceptRideRequest, cancelRideRequest };
-
 
 // Cancel ride request
 const cancelRideRequest = async (req, res) => {

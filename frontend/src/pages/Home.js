@@ -1,146 +1,218 @@
-// src/pages/Home.js
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
+import { Car, DollarSign, Users, Route } from 'lucide-react';
 
-// 🎨 Background Gradient Animation
-const gradientAnimation = keyframes`
+// 🌌 Dynamic Background Animation
+const moveBackground = keyframes`
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 `;
 
-// 🌟 Floating Particles Animation
-const moveParticles = keyframes`
-  0% { transform: translateY(0px); opacity: 0.6; }
-  50% { transform: translateY(-15px); opacity: 1; }
-  100% { transform: translateY(0px); opacity: 0.6; }
+// ✨ Glow Effect
+const glow = keyframes`
+  0% { text-shadow: 0 0 10px #0ea5e9, 0 0 20px #059669; }
+  50% { text-shadow: 0 0 20px #0ea5e9, 0 0 30px #059669; }
+  100% { text-shadow: 0 0 10px #0ea5e9, 0 0 20px #059669; }
 `;
 
-// 💎 Glowing Text Animation
-const glowText = keyframes`
-  0% { text-shadow: 0 0 5px #fff, 0 0 10px #00f2ff; }
-  50% { text-shadow: 0 0 15px #fff, 0 0 30px #00f2ff; }
-  100% { text-shadow: 0 0 5px #fff, 0 0 10px #00f2ff; }
+// 🚗 Floating Animation (Mimics Road Vibes)
+const floating = keyframes`
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
 `;
 
-// 🌌 Animated Background
+// 🚀 Hero Section Entry Animation
+const fadeInUp = keyframes`
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+`;
+
+// 🌌 Home Page Container
 const HomeContainer = styled.div`
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-  background: linear-gradient(-45deg,rgb(0, 255, 17),rgb(255, 0, 0),rgb(255, 0, 212),rgb(4, 0, 255));
-  background-size: 300% 300%;
-  animation: ${gradientAnimation} 8s infinite ease-in-out;
-  position: relative;
+  flex-direction: column;
+  background: linear-gradient(135deg, #111827, #1e293b);
+  animation: ${moveBackground} 10s ease-in-out infinite;
 `;
 
-// ✨ Floating Particles
-const Particle = styled.div`
-  position: absolute;
-  width: ${({ size }) => size}px;
-  height: ${({ size }) => size}px;
-  background: rgb(255, 247, 247);
-  backdrop-filter: blur(3px);
-  border-radius: 50%;
-  top: ${({ top }) => top}%;
-  left: ${({ left }) => left}%;
-  animation: ${moveParticles} 4s ease-in-out infinite;
-`;
-
-// 🟡 Glassmorphic Effect Box
-const ContentBox = styled.div`
-  background: rgb(0, 0, 0);
+// 🚗 Navigation Bar
+const Navbar = styled.nav`
+  background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
-  padding: 40px;
-  border-radius: 15px;
-  max-width: 1000px;
-  text-align: center;
-  box-shadow: 0 0 30px rgb(255, 0, 0);
-  z-index: 2;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  
-  &:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 50px rgb(238, 0, 255);
-  }
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
 `;
 
-// 🚀 Glowing Heading & Text
-const Heading = styled.h1`
-  font-size: 36px;
-  color: #fff;
-  margin-bottom: 15px;
-  animation: ${glowText} 2s infinite alternate;
-`;
-
-const Paragraph = styled.p`
-  font-size: 18px;
-  color: #ffffff;
-  line-height: 1.6;
+const NavLogo = styled.div`
+  display: flex;
+  align-items: center;
+  font-size: 22px;
   font-weight: bold;
-  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+  color: white;
+  gap: 10px;
 `;
 
-// 💡 Neon Button Animation
-const neonGlow = keyframes`
-  0% { box-shadow: 0 0 10px #00f2ff; }
-  50% { box-shadow: 0 0 20px #00f2ff, 0 0 30px #00f2ff; }
-  100% { box-shadow: 0 0 10px #00f2ff; }
+const NavButtons = styled.div`
+  display: flex;
+  gap: 15px;
 `;
 
 const Button = styled(Link)`
-  display: inline-block;
-  margin: 10px;
-  padding: 12px 25px;
-  color: #fff;
-  background: linear-gradient(90deg, #007bff, #00f2ff);
-  border: none;
+  padding: 12px 18px;
   border-radius: 8px;
   text-decoration: none;
-  font-size: 18px;
   font-weight: bold;
-  cursor: pointer;
-  transition: transform 0.3s ease, background 0.3s ease;
-  box-shadow: 0 0 15px #00f2ff;
-  animation: ${neonGlow} 2s infinite alternate;
+  font-size: 14px;
+  transition: all 0.3s ease-in-out;
+  background: ${({ primary }) => (primary ? '#059669' : 'transparent')};
+  color: ${({ primary }) => (primary ? 'white' : '#e5e7eb')};
+  border: ${({ primary }) => (primary ? 'none' : '2px solid #e5e7eb')};
+  
+  &:hover {
+    background: #047857;
+    transform: scale(1.05);
+  }
+`;
 
+// 🎯 Hero Section
+const HeroSection = styled.div`
+  text-align: center;
+  padding: 80px 20px;
+  animation: ${fadeInUp} 1s ease-in-out;
+  position: relative;
+`;
+
+const HeroTitle = styled.h1`
+  font-size: 50px;
+  font-weight: bold;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  animation: ${glow} 2s infinite alternate;
+`;
+
+const HeroText = styled.p`
+  font-size: 20px;
+  color: #cbd5e0;
+  max-width: 700px;
+  margin: 0 auto;
+`;
+
+// 🌟 Features Section
+const FeaturesWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-top: 50px;
+  gap: 20px;
+  padding: 20px;
+`;
+
+const FeatureBox = styled.div`
+  text-align: center;
+  flex: 1;
+  padding: 25px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 255, 200, 0.2);
+  transition: all 0.3s ease-in-out;
+  animation: ${floating} 3s ease-in-out infinite;
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(0, 255, 200, 0.3);
+  }
+`;
+
+const FeatureTitle = styled.h3`
+  font-size: 22px;
+  font-weight: bold;
+  margin-top: 10px;
+  color: white;
+`;
+
+const FeatureText = styled.p`
+  font-size: 16px;
+  color: #cbd5e0;
+`;
+
+// 🔥 Find Ride Button
+const ActionButton = styled.button`
+  width: 250px;
+  padding: 15px;
+  margin-top: 30px;
+  background: linear-gradient(45deg, #0ea5e9, #059669);
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  animation: ${glow} 1.5s infinite alternate;
+  
   &:hover {
     transform: scale(1.1);
-    background: linear-gradient(90deg, #00f2ff, #007bff);
   }
+`;
+
+// ⚡ Footer
+const Footer = styled.footer`
+  background: #111827;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  margin-top: 50px;
 `;
 
 function Home() {
   return (
     <HomeContainer>
-      {/* 🌟 Floating Particles */}
-      {[...Array(15)].map((_, i) => (
-        <Particle
-          key={i}
-          size={Math.random() * 20 + 10}
-          top={Math.random() * 100}
-          left={Math.random() * 100}
-        />
-      ))}
+      {/* 🚗 Navbar */}
+      <Navbar>
+        <NavLogo>
+          <Car size={28} color="#0ea5e9" />
+          RideShare
+        </NavLogo>
+        <NavButtons>
+          <Button to="/login">Sign In</Button>
+          <Button to="/register" primary>Sign Up</Button>
+        </NavButtons>
+      </Navbar>
 
-      {/* 🌌 Content Card */}
-      <ContentBox>
-        <Heading>🚗 Welcome to Car Pooling Ride Sharing 🚀</Heading>
-        <Paragraph>
-          Reduce traffic, save money, and make new friends! Join our ride-sharing community and
-          experience hassle-free travel. Whether you're a <strong>DRIVER</strong> or a <strong>PASSENGER</strong>,
-          we’ve got you covered.
-        </Paragraph>
-        <div>
-          <Button to="/login">Log In</Button>
-          <Button to="/rides">Find Rides</Button>
-          <Button to="/dashboard">Dashboard</Button>
-          <Button to="/register">Register</Button>
-        </div>
-      </ContentBox>
+      {/* 🎯 Hero Section */}
+      <HeroSection>
+        <HeroTitle>Seamless Carpooling Experience</HeroTitle>
+        <HeroText>Connect with travelers on the move and reduce your travel costs while making a positive impact.</HeroText>
+      </HeroSection>
+
+      {/* ⭐ Features */}
+      <FeaturesWrapper>
+        <FeatureBox>
+          <Route size={40} color="#0ea5e9" />
+          <FeatureTitle>Smart Matching</FeatureTitle>
+          <FeatureText>Find the best ride options instantly.</FeatureText>
+        </FeatureBox>
+        <FeatureBox>
+          <DollarSign size={40} color="#0ea5e9" />
+          <FeatureTitle>Fair Pricing</FeatureTitle>
+          <FeatureText>Automatic cost-sharing ensures transparency.</FeatureText>
+        </FeatureBox>
+        <FeatureBox>
+          <Users size={40} color="#0ea5e9" />
+          <FeatureTitle>Community Driven</FeatureTitle>
+          <FeatureText>Join eco-conscious commuters today.</FeatureText>
+        </FeatureBox>
+      </FeaturesWrapper>
+
+      {/* ⚡ Footer */}
+      <Footer>© 2025 RideShare. All rights reserved.</Footer>
     </HomeContainer>
   );
 }

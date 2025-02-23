@@ -23,7 +23,7 @@ app.use('/api/rides', rideRoutes);
 app.use('/api/cars', carRoutes);
 app.use('/api/feedback', feedbackRoutes);
 app.use('/api/bookings', bookingRoutes);
-app.use('/api/ridesearch', rideSearchRoutes);
+app.use('/api/ride-search', rideSearchRoutes);
 app.use('/api/admin', adminRoutes);
 
 module.exports = app;

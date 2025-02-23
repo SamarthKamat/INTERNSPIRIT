@@ -56,7 +56,7 @@ const login = async (req, res) => {
     }
 
     // Generate a JWT token
-    const token = jwt.sign({ id: user._id }, jwtSecret, { expiresIn: '1h' });
+    const token = jwt.sign({ id: user._id }, jwtSecret, { expiresIn: '20d' });
 
     res.status(200).json({ token, user, message: "Logged In" });
   } catch (error) {
@@ -65,4 +65,12 @@ const login = async (req, res) => {
   }
 };
 
-module.exports = { register, login };
+const autoLogin =  (req, res) => {
+  if (req.user) { 
+    res.json({ user: req.user });
+  } else {
+    res.status(401).json({ message: 'Unauthorized' });
+  }
+}
+
+module.exports = { register, login, autoLogin };

@@ -1,10 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
-import styled, { keyframes } from 'styled-components';
-import Navbar from '../components/Navbar';
-import { GoogleMap, LoadScript, Marker, DirectionsRenderer } from '@react-google-maps/api';
-import sedanImage from '../assets/sedan.jpg';
-import swiftImage from '../assets/swift.jpg';
+
+// RideSearch.js
+import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
+import styled, { keyframes } from "styled-components";
+import Navbar from "../components/Navbar"; // Correct path
+import {
+  GoogleMap,
+  LoadScript,
+  Marker,
+  DirectionsRenderer,
+} from "@react-google-maps/api";
+import sedanImage from "../assets/sedan.jpg"; // Correct paths
+import swiftImage from "../assets/swift.jpg";
+import api from "../services/api"; // Import api service
 
 const googleMapsApiKey = "AIzaSyCOcIVYH1tYXH0L0ryQVcldisMyRNWrDYA";
 
@@ -112,29 +120,35 @@ const CarImage = styled.img`
   margin-bottom: 10px;
 `;
 
+
 const RideSearch = () => {
   const history = useHistory();
-  const [origin, setOrigin] = useState('');
-  const [destination, setDestination] = useState('');
+  const [origin, setOrigin] = useState("");
+  const [destination, setDestination] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [mapCenter, setMapCenter] = useState({ lat: 19.076, lng: 72.877 });
   const [directions, setDirections] = useState(null);
+  const [error, setError] = useState(null); // State for errors
 
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        setMapCenter({
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        });
-      },
-      () => alert('Location access denied!')
-    );
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setMapCenter({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          });
+        },
+        () => alert("Location access denied!")
+      );
+    } else {
+      alert("Geolocation is not supported by your browser.");
+    }
   }, []);
 
-  const handleSearch = () => {
+  const handleSearch = async () => {
     if (!origin || !destination) {
-      alert('Please enter start and drop points.');
+      alert("Please enter start and drop points.");
       return;
     }
 
@@ -145,51 +159,36 @@ const RideSearch = () => {
         destination,
         travelMode: window.google.maps.TravelMode.DRIVING,
       },
-      (result, status) => {
+      async (result, status) => {
         if (status === window.google.maps.DirectionsStatus.OK) {
           setDirections(result);
+          setError(null); // Clear any previous errors
+
+          try {
+            const response = await api.get("ride-search/search", {
+              params: {
+                startLocation: origin,
+                endLocation: destination,
+              },
+            });
+            console.log(response.data)
+            setSearchResults(response.data);
+          } catch (error) {
+            console.error("Error searching rides:", error);
+            setError("Error searching rides. Please try again later."); // Set the error message
+            setSearchResults([]); // Clear any previous search results
+          }
         } else {
-          alert('Unable to find route!');
+          alert("Unable to find route!");
+          setError("Unable to find route!"); // Set the error message
+          setSearchResults([]); // Clear any previous search results
         }
       }
     );
-
-    const rides = [
-      {
-        id: 1,
-        car: 'Sedan',
-        carNumber: 'MH 12 AB 1234',
-        driverName: 'Muhammad Ali',
-        seatsAvailable: 3,
-        driverContact: '+91 9876543210',
-        driverRating: '⭐⭐⭐⭐⭐',
-        shareCode: 'XYZ123',
-      },
-      {
-        id: 2,
-        car: 'Swift',
-        carNumber: 'MH 14 CD 5678',
-        driverName: 'Mike Dawson',
-        seatsAvailable: 2,
-        driverContact: '+91 9876543211',
-        driverRating: '⭐⭐⭐⭐',
-        shareCode: 'ABC456',
-      },
-    ];
-
-    // Calculate cost for each ride
-    const updatedRides = rides.map((ride) => {
-      const totalCost = Math.floor(Math.random() * (500 - 100 + 1)) + 100;
-      const costPerPassenger = Math.floor(totalCost / ride.seatsAvailable);
-      return { ...ride, totalCost, costPerPassenger };
-    });
-
-    setSearchResults(updatedRides);
   };
 
   return (
     <PageContainer>
-      <Navbar />
       <ContentContainer>
         <SearchBox>
           <Input
@@ -209,31 +208,44 @@ const RideSearch = () => {
           </SearchButton>
         </SearchBox>
 
-        {/* Google Maps Integration */}
         <MapContainer>
           <LoadScript googleMapsApiKey={googleMapsApiKey}>
-            <GoogleMap center={mapCenter} zoom={13} mapContainerStyle={{ width: '100%', height: '100%' }}>
+            <GoogleMap
+              center={mapCenter}
+              zoom={13}
+              mapContainerStyle={{ width: "100%", height: "100%" }}
+            >
               <Marker position={mapCenter} />
               {directions && <DirectionsRenderer directions={directions} />}
             </GoogleMap>
           </LoadScript>
         </MapContainer>
 
+        {error && <p style={{ color: "red" }}>{error}</p>} {/* Display error message */}
+
         <RideContainer>
-          {searchResults.map((ride) => (
-            <RideCard key={ride.id}>
-              <CarImage src={ride.car === 'Sedan' ? sedanImage : swiftImage} alt="Car" />
-              <h3>{ride.car}</h3>
-              <p>{ride.carNumber}</p>
-              <p>Driver: {ride.driverName}</p>
-              <p>Seats Available: {ride.seatsAvailable}</p>
-              <p>Contact: {ride.driverContact}</p>
-              <p>Rating: {ride.driverRating}</p>
-              <p>Share Code: {ride.shareCode}</p>
-              <p><strong>Total Cost:</strong> ₹{ride.totalCost}</p>
-              <p><strong>Cost per Passenger:</strong> ₹{ride.costPerPassenger}</p>
-            </RideCard>
-          ))}
+          {searchResults.length > 0 ? (
+            searchResults.map((ride) => (
+              <RideCard key={ride._id}>
+                <CarImage
+                  src={ride.car?.make === "Sedan" ? sedanImage : swiftImage}
+                  alt="Car"
+                />
+                <h3>{ride.car?.make}</h3>
+                <p>{ride.car?.model}</p>
+                <p>
+                  Driver: {ride.driver?.name}
+                </p>
+                {/* <p>Seats Available: {ride.seatsAvailable}</p> */}
+                <p>Contact: {ride.driver?.phone}</p> {/* Access phone number */}
+                <p>
+                  <strong>Cost per Passenger:</strong> ₹{ride.price}
+                </p>
+              </RideCard>
+            ))
+          ) : (
+            <p>No rides found.</p>
+          )}
         </RideContainer>
       </ContentContainer>
     </PageContainer>

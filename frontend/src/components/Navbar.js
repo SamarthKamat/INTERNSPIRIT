@@ -30,7 +30,6 @@ function Navbar() {
   return (
     <NavbarContainer>
       <NavButton to="/">Home</NavButton>
-      
       <NavButton to="/login">Log In</NavButton>
       <NavButton to="/register">Register</NavButton>
       <NavButton to="/rides">Find Rides</NavButton>

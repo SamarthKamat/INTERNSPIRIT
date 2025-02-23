@@ -1,4 +1,4 @@
-const Admin = require('../models/Admin');
+const Admin = require('../models/AdminModel');
 
 const adminMiddleware = async (req, res, next) => {
   try {
