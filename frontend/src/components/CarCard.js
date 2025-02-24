@@ -24,6 +24,7 @@ const CarCard = ({ car }) => {
     <Card>
       <CarTitle>{car.make} {car.model}</CarTitle>
       <CarDetail>Year: {car.year}</CarDetail>
+      <CarDetail>License Plate: {car.licensePlate}</CarDetail> {/* Add license plate */}
       {/* ... other car details */}
     </Card>
   );

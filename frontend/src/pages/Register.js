@@ -203,6 +203,7 @@ export function Register() {
           <StyledInput type="text" placeholder="Full Name" value={name} onChange={(e) => setName(e.target.value)} />
           <StyledInput type="email" placeholder="Email Address" value={email} onChange={(e) => setEmail(e.target.value)} />
           <StyledInput type="password" placeholder="Create Password" value={password} onChange={(e) => setPassword(e.target.value)} />
+          <StyledInput type="tel" placeholder="Phone Number" value={phone} onChange={(e) => setPhone(e.target.value)} />
           <StyledButton type="submit">Register</StyledButton>
         </form>
       </RegisterContainer>

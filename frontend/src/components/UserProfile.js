@@ -9,16 +9,6 @@ const ProfileContainer = styled.div`
   width: 100%;
 `;
 
-const Avatar = styled.img`
-  width: 150px;
-  height: 150px;
-  border-radius: 50%; // Make it circular
-  object-fit: cover; // Prevent image distortion
-  margin-bottom: 10px;
-  border: 3px solid #fff; // Add a white border
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1); // Add a subtle shadow
-`;
-
 const UserInfo = styled.div`
   text-align: center; // Center text
   color: #333; // Darker text color
@@ -45,7 +35,6 @@ function UserProfile({ user }) {
 
   return (
     <ProfileContainer>
-      <Avatar src={user.profilePicture || "https://via.placeholder.com/150"} alt={user.name} /> {/* Use a placeholder image */}
       <UserInfo>
         <Name>{user.name}</Name>
         <Email>{user.email}</Email>

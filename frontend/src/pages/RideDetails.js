@@ -170,34 +170,3 @@ const RideDetails = () => {
 };
 
 export default RideDetails;
-
-// function RideDetails() {
-//   const location = useLocation();
-//   const ride = location.state.ride;
-
-//   return (
-//     <RideDetailsContainer>
-//       <Navbar />
-//       <RideCard>
-//         <CarImage
-//           src={ride.car === 'Sedan' ? '/path/to/sedan.jpg' : '/path/to/swift.jpg'}
-//           alt="Car"
-//         />
-//         <h2>Ride Details</h2>
-
-//         <RideInfo><FaCar /> <strong>Car:</strong> {ride.car}</RideInfo>
-//         <RideInfo><FaKey /> <strong>Car Number:</strong> {ride.carNumber}</RideInfo>
-//         <RideInfo><FaUser /> <strong>Driver:</strong> {ride.driverName}</RideInfo>
-//         <RideInfo><FaStar style={{ color: '#f1c40f' }} /> <strong>Rating:</strong> {ride.driverRating} ⭐</RideInfo>
-//         <RideInfo><FaCar /> <strong>Seats Available:</strong> {ride.seatsAvailable}</RideInfo>
-//         <RideInfo><FaKey /> <strong>Share Code:</strong> {ride.shareCode}</RideInfo>
-
-//         <ContactButton href={`tel:${ride.driverContact}`}>
-//           <FaPhone /> Call Driver
-//         </ContactButton>
-//       </RideCard>
-//     </RideDetailsContainer>
-//   );
-// }
-
-// export default RideDetails;

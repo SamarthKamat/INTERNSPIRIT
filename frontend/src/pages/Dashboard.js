@@ -104,13 +104,7 @@ export default function Dashboard() {
           {!loading && !error && myRides.length === 0 && <p>No rides found.</p>}
         </Section>
 
-        <Section>
-          <AddCarForm></AddCarForm>
-        </Section>
-        <Section>
-          <CreateRideForm></CreateRideForm>
-        </Section>
-
+        
 
       </ContentContainer>
     </DashboardContainer>

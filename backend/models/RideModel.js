@@ -12,6 +12,7 @@ const RideSchema = new Schema({
   status: { type: String, enum: ['Scheduled', 'In Progress', 'Completed', 'Canceled'], default: 'Scheduled' },
   price: { type: Number, required: true },
   feedback: [{ type: Schema.Types.ObjectId, ref: 'Feedback' }], // Add feedback reference
+  availableSeats: { type: Number, required: true },
 });
 
 const Ride = mongoose.model('Ride', RideSchema);
